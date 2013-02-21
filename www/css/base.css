@@ -1,0 +1,24 @@
+/* Reset */
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#main{
+}
+
+
+/* Debug */
+#main:before{
+  content:"";
+  background-repeat: no-repeat;
+  background-image: url(../img/dev_KeonMetPS.png);
+  min-height: 480px;
+  min-width: 320px;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: -1;
+  opacity:0.5;
+}
