@@ -4,10 +4,78 @@ html, body {
   padding: 0;
   margin: 0;
 }
-
-#main{
+p{
+  margin:0;
 }
 
+/* Fonts */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('./fonts/montserrat-regular.eot');
+    src: url('./fonts/montserrat-regular.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/montserrat-regular.woff') format('woff'),
+         url('./fonts/montserrat-regular.ttf') format('truetype'),
+         url('./fonts/montserrat-regular.svg#montserratregular') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('./fonts/montserrat-bold.eot');
+    src: url('./fonts/montserrat-bold.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/montserrat-bold.woff') format('woff'),
+         url('./fonts/montserrat-bold.ttf') format('truetype'),
+         url('./fonts/montserrat-bold.svg#montserratbold') format('svg');
+    font-weight: 700;
+    font-style: normal;
+}
+#main{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  letter-spacing: -1px;
+}
+#bpm{
+  font-size: 75px;
+  letter-spacing: -7px;
+}
+#time_signature_button{
+  font-family: 'Montserrat-Bold', sans-serif;
+  font-size:14px;
+}
+
+/*Position*/
+#main,
+#bpm,
+#tempo_mark,
+#time_signature,
+#mute_button{
+  position: absolute;
+  display: block;
+}
+#bpm{
+  top:5px;
+  left:23px;
+}
+#tempo_mark{
+  top: 83px;
+  left: 27px;
+}
+#time_signature{
+  top: 21px;
+  left: 149px;
+}
+#mute_button{
+  top: 11px;
+  left: 256px;
+}
+/*Buttons*/
+#mute_button{
+  background: none;
+  border: none;
+  background-image: url(../img/mute_btn_o.png);
+  width: 54px;
+  height: 54px;
+}
 
 /* Debug */
 #main:before{
