@@ -48,7 +48,11 @@ p{
 #bpm,
 #tempo_mark,
 #time_signature,
-#mute_button{
+#mute_button,
+#play_pause_button,
+#decrease_speed_button,
+#increase_speed_button,
+#time_signature_button{
   position: absolute;
   display: block;
 }
@@ -68,13 +72,52 @@ p{
   top: 11px;
   left: 256px;
 }
+#play_pause_button{
+  top: 315px;
+  left: 154px;
+}
+#decrease_speed_button{
+  top: 415px;
+  left: 123px;
+}
+#increase_speed_button{
+  top: 283px;
+  left: 255px;
+}
+#time_signature_button{
+  top: 415px;
+  left: 255px;
+}
 /*Buttons*/
-#mute_button{
+#mute_button,
+#play_pause_button,
+#decrease_speed_button,
+#increase_speed_button,
+#time_signature_button{
   background: none;
   border: none;
-  background-image: url(../img/mute_btn_o.png);
+  overflow: hidden;
   width: 54px;
   height: 54px;
+  padding-top: 54px;
+}
+#mute_button{
+  background-image: url(../img/btn_mute.png);
+}
+#play_pause_button{
+  background-image: url(../img/btn_play.png);
+  width: 124px;
+  height: 124px;
+  padding-top: 124px;
+}
+#decrease_speed_button{
+  background-image: url(../img/btn-.png);
+}
+#increase_speed_button{
+  background-image: url(../img/btn+.png);
+}
+#time_signature_button{
+  background-image: url(../img/btn_fraction.png);
 }
 
 /* Debug */
