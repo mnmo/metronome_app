@@ -10,5 +10,5 @@
     "name": "mnmo : Fabricio and Mauricio Zuardi",
     "url": "http://mnmo.com.br"
   },
-  "installs_allowed_from": ["*"],
+  "installs_allowed_from": ["*"]
 }
