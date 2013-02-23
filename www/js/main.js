@@ -14,11 +14,14 @@ require(["lib/pulse_generator"], sound_init);
       play_pause_button_el,
       decrease_speed_button_el,
       increase_speed_button_el,
-      motion_display_el;
+      motion_display_el,
+      speed_slider_el,
+      speed_slider_axis_el,
+      slider_bg_el;
 
   //variables
-  var sampleRate = 44100;
-  var bpm_speed, beat_time, buffer_interval, time_signature, audioDestination;
+  var sampleRate = 44100, moveCount=0;
+  var bpm_speed, beat_time, buffer_interval, time_signature, audioDestination, angle;
 
 //Sound related initializations
 function sound_init(){
@@ -50,7 +53,7 @@ function bpmToTempoMark(bpm_value){
   if (bpm_value > 75){    return names[3];}
   if (bpm_value > 65){    return names[2];}
   if (bpm_value > 59){    return names[1];}
-  if (bpm_value > 39){    return names[0];}
+  return names[0];
 }
 function setCharAt(str,index,chr) {
     if(index > str.length-1) return str;
@@ -122,6 +125,59 @@ function timeSignatureDialogCancel(event){
   event.stopPropagation();
   time_signature_dialog_el.style.display = "none";
 }
+function sliderDown(event){
+  event.preventDefault();
+  // event.preventDefault();
+  console.log('mousedown');
+  event.target.dataset.state = 'down';
+  console.log(event.target);
+
+  if ((typeof event.touches != "undefined") && (event.touches.length == 1)){ // one finger touchs only
+      oneFingerOnly = true;
+      var touch = event.touches[0];  // finger #1
+      //update variables
+      event.target.dataset.startX = touch.pageX;
+      event.target.dataset.startY = touch.pageY;
+    } else {
+      event.target.dataset.oneFingerOnly = false;
+    }
+
+}
+
+function sliderMove(event){
+  if((typeof event.touches != "undefined")&&(event.touches.length == 1)){
+    var touch = event.touches[0];
+    //updates x and y
+    lastX = touch.pageX;
+    lastY = touch.pageY;
+  }else{
+    lastX = event.clientX;
+    lastY = event.clientY;
+  }
+  if(lastY>480){return}
+  if (  event.target.dataset.state === 'down'){
+    var deltaX = lastX - 320;
+    var deltaY = lastY - 480;
+    angle = Math.round((Math.atan2(deltaY,deltaX)/(Math.PI/180))+180);
+    if (angle < 8){
+      angle = 8;
+    }
+    if (angle > 82){
+      angle = 82;
+    }
+    // console.log('mousemove '+ event.clientX+' '+ event.clientY+' '+(angle+180));
+    speed_slider_axis_el.style.transform = "rotate("+angle+"deg)";
+    speed_slider_el.style.transform = "rotate(-"+angle+"deg)";
+    slider_bg_el.style.transform = "rotate("+angle+"deg)";
+
+    var percent = (1 - ((82 - angle) / (82-8)));
+    setSpeed(Math.round(220*percent+10));
+  }
+}
+function sliderUp(event){
+  console.log('mouseup');
+  event.target.dataset.state = 'up';
+}
 function domReady(doc){
   //assign elements
   bpm_el = doc.querySelector("#bpm");
@@ -136,6 +192,9 @@ function domReady(doc){
   decrease_speed_button_el = doc.querySelector("#decrease_speed_button");
   increase_speed_button_el = doc.querySelector("#increase_speed_button");
   motion_display_el = doc.querySelector("#motion_display");
+  speed_slider_el = doc.querySelector("#speed_slider");
+  speed_slider_axis_el = doc.querySelector("#speed_slider_axis");
+  slider_bg_el = doc.querySelector("#slider_bg");
 
   //assign values
   setSpeed(Number(bpm_el.textContent));
@@ -156,6 +215,12 @@ function domReady(doc){
   time_signature_submit_button_el.addEventListener('touchstart', timeSignatureDialogSubmit, true);
   time_signature_cancel_button_el.addEventListener('click', timeSignatureDialogCancel, true);
   time_signature_cancel_button_el.addEventListener('touchstart', timeSignatureDialogCancel, true);
+  speed_slider_el.addEventListener('mousedown', sliderDown, true);
+  speed_slider_el.addEventListener('mousemove', sliderMove, true);
+  speed_slider_el.addEventListener('mouseup', sliderUp, true);
+  speed_slider_el.addEventListener('touchstart', sliderDown, false);
+  speed_slider_el.addEventListener('touchmove', sliderMove, false);
+  speed_slider_el.addEventListener('touchend', sliderUp, false);
 }
 
 

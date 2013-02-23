@@ -35,10 +35,17 @@ html, body {
 p{
   margin:0;
 }
+::selection {
+  background: transparent; /* Safari */
+  }
+::-moz-selection {
+  background: transparent; /* Firefox */
+}
 #main{
   font-family: 'Montserrat', sans-serif;
   font-size: 20px;
   letter-spacing: -1px;
+  overflow: hidden
 }
 #bpm{
   font-size: 75px;
@@ -51,16 +58,21 @@ p{
 
 /*Position*/
 #main,
+#bg,
 #bpm,
 #tempo_mark,
 #time_signature,
 #motion_display,
 #speed_slider,
+#speed_slider_axis,
 #mute_button,
 #play_pause_button,
 #decrease_speed_button,
 #increase_speed_button,
-#time_signature_button{
+#time_signature_button,
+#slider_bg,
+#slider_fill,
+#slider_empty{
   position: absolute;
   display: block;
 }
@@ -84,10 +96,6 @@ p{
   top: 110px;
   left: 28px;
 }
-#speed_slider{
-  top: 140px;
-  left: 28px;
-}
 #mute_button{
   top: 11px;
   left: 256px;
@@ -108,12 +116,45 @@ p{
   top: 415px;
   left: 255px;
 }
+#speed_slider_axis {
+    height: 640px;
+    width: 640px;
+    left: 0;
+    top: 160px;
+    transform: rotate(45deg);
+}
+#speed_slider {
+    left: 23px;
+    top: 293px;
+    transform: rotate(-45deg);
+}
+#slider_fill,
+#slider_empty{
+  height: 320px;
+  width: 640px;
+}
+#slider_bg{
+    height: 640px;
+    width: 640px;
+    left: 0;
+    top: 160px;
+    transform: rotate(45deg);
+}
+#slider_fill{
+    top: 320px;
+    background-color: #ee2d2f;
+}
+#slider_empty{
+    background-color: #171717;
+}
+
 /*Buttons*/
 #mute_button,
 #play_pause_button,
 #decrease_speed_button,
 #increase_speed_button,
-#time_signature_button{
+#time_signature_button,
+#speed_slider{
   background: none;
   border: none;
   overflow: hidden;
@@ -141,8 +182,11 @@ p{
   background-image: url(../img/btn_fraction.png);
   padding-top: 0px;
 }
-
-/* */
+#speed_slider{
+  background-image: url(../img/btn_slider.png);
+  padding-top: 0px;
+}
+/*Inactive elements on start*/
 #play_pause_button.disabled{
   opacity: 0.5;
 }
@@ -152,6 +196,10 @@ p{
 
 /* Main background */
 #main{
+  min-height: 480px;
+  min-width: 320px;
+}
+#bg{
   background-repeat: no-repeat;
   background-position: bottom;
   background-image: url(../img/bg.png);

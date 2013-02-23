@@ -1,0 +1,14 @@
+{
+  "version": "0.1",
+  "name": "Metronome",
+  "description": "A precise, elegant and easy to use HTML5 metronome.",
+  "launch_path": "/app.html",
+  "icons": {
+    "128": "/img/btn_play.png"
+  },
+  "developer": {
+    "name": "mnmo : Fabricio and Mauricio Zuardi",
+    "url": "http://mnmo.com.br"
+  },
+  "installs_allowed_from": ["*"],
+}

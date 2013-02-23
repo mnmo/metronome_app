@@ -10,18 +10,21 @@
 </head>
 <body>
     <div id="main">
+        <div id="slider_bg">
+            <div id="slider_empty"></div>
+            <div id="slider_fill"></div>
+        </div>
+        <div id="bg"></div>
         <div>
-            <p id="bpm">229</p>
-            <p id="tempo_mark">prestissimo</p>
+            <p id="bpm">120</p>
+            <p id="tempo_mark">allegro</p>
             <p id="time_signature">2/4</p>
         </div>
         <div id="motion_display">....</div>
         <button id="mute_button">mute</button>
-        <input  id="speed_slider" type="range"
-                min="10"
-                max="230"
-                step="1"
-                value="120">
+        <div id="speed_slider_axis">
+        <div id="speed_slider" data-state="up"></div>
+        </div>
         <!-- play_pause_button enable only after loading the sound files -->
         <button id="play_pause_button" class="disabled">▶❚❚</button>
         <button id="decrease_speed_button">-</button>
