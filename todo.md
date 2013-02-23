@@ -30,6 +30,10 @@ Sons
 
 - refinar os tons (downbeat, upbeat e onbeat)
 
+Site
+====
+
+- home page sobre a app com botão de install
 
 Prog.
 =====
