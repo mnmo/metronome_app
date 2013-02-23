@@ -4,7 +4,7 @@
   "description": "A precise, elegant and easy to use HTML5 metronome.",
   "launch_path": "/app.html",
   "icons": {
-    "128": "/img/btn_play.png"
+    "128": "/img/icons/app_128.png"
   },
   "developer": {
     "name": "mnmo : Fabricio and Mauricio Zuardi",
