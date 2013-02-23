@@ -77,15 +77,24 @@ function setTimeSignature(time_signature_value){
   time_signature_el.textContent = time_signature_value;
   time_signature_button_el.textContent = time_signature_value;
 }
+function updateSpeedSliderPosition(bpm_value){
+  var percent = (1 - ((220 - bpm_value) / (220-10)));
+  var angle = Math.round(74*percent+8)
+  speed_slider_axis_el.style.transform = "rotate("+angle+"deg)";
+  speed_slider_el.style.transform = "rotate(-"+angle+"deg)";
+  slider_bg_el.style.transform = "rotate("+angle+"deg)";
+}
 function increaseSpeed(event){
   event.preventDefault();
   event.stopPropagation();
   setSpeed(++bpm_speed);
+  updateSpeedSliderPosition(bpm_speed);
 }
 function decreaseSpeed(event){
   event.preventDefault();
   event.stopPropagation();
   setSpeed(--bpm_speed);
+  updateSpeedSliderPosition(bpm_speed);
 }
 function muteSoundToggle(event){
   event.preventDefault();
