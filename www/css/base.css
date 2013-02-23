@@ -48,6 +48,8 @@ p{
 #bpm,
 #tempo_mark,
 #time_signature,
+#motion_display,
+#speed_slider,
 #mute_button,
 #play_pause_button,
 #decrease_speed_button,
@@ -59,6 +61,8 @@ p{
 #bpm{
   top:5px;
   left:23px;
+  position: relative;
+  float: left;
 }
 #tempo_mark{
   top: 83px;
@@ -66,7 +70,17 @@ p{
 }
 #time_signature{
   top: 21px;
-  left: 149px;
+  margin-left: 34px;
+  position: relative;
+  float: left;
+}
+#motion_display{
+  top: 110px;
+  left: 28px;
+}
+#speed_slider{
+  top: 140px;
+  left: 28px;
 }
 #mute_button{
   top: 11px;
@@ -100,6 +114,7 @@ p{
   width: 54px;
   height: 54px;
   padding-top: 54px;
+  color:#fff;
 }
 #mute_button{
   background-image: url(../img/btn_mute.png);
@@ -118,6 +133,21 @@ p{
 }
 #time_signature_button{
   background-image: url(../img/btn_fraction.png);
+  padding-top: 0px;
+}
+
+/* */
+#play_pause_button.disabled{
+  opacity: 0.5;
+}
+
+/* Main background */
+#main{
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-image: url(../img/bg.png);
+  min-height: 480px;
+  min-width: 320px;
 }
 
 /* Debug */
