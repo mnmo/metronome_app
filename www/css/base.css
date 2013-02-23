@@ -1,13 +1,3 @@
-/* Reset */
-html, body {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-}
-p{
-  margin:0;
-}
-
 /* Fonts */
 @font-face {
     font-family: 'Montserrat';
@@ -28,6 +18,22 @@ p{
          url('./fonts/montserrat-bold.svg#montserratbold') format('svg');
     font-weight: 700;
     font-style: normal;
+
+}
+/* Reset */
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+    font-family: "mozTT",sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+p{
+  margin:0;
 }
 #main{
   font-family: 'Montserrat', sans-serif;
@@ -140,6 +146,9 @@ p{
 #play_pause_button.disabled{
   opacity: 0.5;
 }
+#time_signature_dialog{
+  display: none;
+}
 
 /* Main background */
 #main{
@@ -152,6 +161,7 @@ p{
 
 /* Debug */
 #main:before{
+/*
   content:"";
   background-repeat: no-repeat;
   background-image: url(../img/dev_KeonMetPS.png);
@@ -162,4 +172,5 @@ p{
   position: absolute;
   z-index: -1;
   opacity:0.5;
+*/
 }

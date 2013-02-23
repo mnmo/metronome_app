@@ -4,12 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/BB/fonts.css">
+    <link rel="stylesheet" type="text/css" href="css/BB/value_selector.css">
     <title>Metronome</title>
 </head>
 <body>
     <div id="main">
         <div>
-            <p id="bpm">228</p>
+            <p id="bpm">229</p>
             <p id="tempo_mark">prestissimo</p>
             <p id="time_signature">2/4</p>
         </div>
@@ -21,10 +23,91 @@
                 step="1"
                 value="120">
         <!-- play_pause_button enable only after loading the sound files -->
-        <button id="play_pause_button" class="disabled" data-action="play">▶❚❚</button>
+        <button id="play_pause_button" class="disabled">▶❚❚</button>
         <button id="decrease_speed_button">-</button>
         <button id="increase_speed_button">+</button>
         <button id="time_signature_button">2/4</button>
+
+  <form role="dialog" onsubmit="return false;" id="time_signature_dialog">
+    <section>
+      <h1>Time Signature</h1>
+      <ul role="listbox">
+        <li role="option">
+          <label for="option1">
+            <input type="radio" name="option" id="option1" value="none">
+            <span>none</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option2">
+            <input type="radio" name="option" id="option2" value="2/2">
+            <span>2/2</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option3">
+            <input type="radio" name="option" id="option3" value="2/4" checked>
+            <span>2/4</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option4">
+            <input type="radio" name="option" id="option4" value="3/4">
+            <span>3/4</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option5">
+            <input type="radio" name="option" id="option5" value="3/8">
+            <span>3/8</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option6">
+            <input type="radio" name="option" id="option6" value="4/4">
+            <span>4/4</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option7">
+            <input type="radio" name="option" id="option7" value="5/4">
+            <span>5/4</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option8">
+            <input type="radio" name="option" id="option8" value="6/8">
+            <span>6/8</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option9">
+            <input type="radio" name="option" id="option9" value="7/8">
+            <span>7/8</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option10">
+            <input type="radio" name="option" id="option10" value="9/8">
+            <span>9/8</span>
+          </label>
+        </li>
+        <li role="option">
+          <label for="option11">
+            <input type="radio" name="option" id="option11" value="12/8">
+            <span>12/8</span>
+          </label>
+        </li>
+      </ul>
+    </section>
+    <menu>
+      <button id="time_signature_cancel_button">Cancel</button>
+      <button class="recommend" id="time_signature_submit_button">Ok</button>
+    </menu>
+  </form>
+
+
+
     </div>
     <!-- data-main attribute tells require.js to load
              scripts/main.js after require.js loads. -->
