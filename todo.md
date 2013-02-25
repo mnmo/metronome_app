@@ -50,3 +50,4 @@ Prog.
 - pausar (ou parar) o som enquanto o usuário interage com o slider ou a tela de alteração da fração (performance)
 - checar bug de piscar azul mas não selecionar a fração em questão
 - minificar JS
+- talvez salvar ultimo estado no localstorage para o cara não ter que arrumar de novo
