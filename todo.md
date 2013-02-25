@@ -24,6 +24,11 @@ UI
 - versão flipada da interface
 - otimizar o peso das imagens
 
+Manifest
+========
+
+- when install screen shows up in the phone the Size is Unknown
+
 
 Sons
 ====
