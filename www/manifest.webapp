@@ -10,5 +10,14 @@
     "name": "mnmo : Fabricio and Mauricio Zuardi",
     "url": "http://mnmo.com.br"
   },
-  "installs_allowed_from": ["*"]
+  "fullscreen": "true",
+  "orientation": ["portrait"],
+  "installs_allowed_from": ["*"],
+  "default_locale": "en"​,
+  "locales": {
+    "pt": {
+      "name": "Metrônomo",
+      "description": "Um metrônomo preciso, elegante e fácil de usar."
+    }
+  }
 }
