@@ -1,4 +1,18 @@
 
+Working on:
+-----------
+
+- limitar o slider quando o usuário interage via + e -
+- pausar (ou parar) o som enquanto o usuário interage com o slider ou a tela de alteração da fração (performance)
+- pendulo sai do limite na app instalada
+- travar a rotação
+- travar o scroll
+- [manifest] when install screen shows up in the phone the Size is Unknown
+
+
+-------------------------------------------------------------------------------
+
+
 Before publishing
 =================
 
@@ -24,11 +38,6 @@ UI
 - versão flipada da interface
 - otimizar o peso das imagens
 
-Manifest
-========
-
-- when install screen shows up in the phone the Size is Unknown
-
 
 Sons
 ====
@@ -43,11 +52,7 @@ Site
 Prog.
 =====
 
-- travar a rotação
-- travar o scroll
 - preload das imagens?
-- limitar o slider quando o usuário interage via + e -
-- pausar (ou parar) o som enquanto o usuário interage com o slider ou a tela de alteração da fração (performance)
 - checar bug de piscar azul mas não selecionar a fração em questão
 - minificar JS
 - talvez salvar ultimo estado no localstorage para o cara não ter que arrumar de novo
