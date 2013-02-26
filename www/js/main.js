@@ -121,7 +121,7 @@ function playPauseClicked(event){
   event.preventDefault();
   event.stopPropagation();
   if (event.target.className === 'disabled') { return false; }
-  console.log(buffer_interval);
+  // console.log(buffer_interval);
   if (typeof buffer_interval !== 'undefined'){
     // alert('stop');
     stopMetronome();
@@ -154,9 +154,9 @@ function timeSignatureDialogCancel(event){
 function sliderDown(event){
   event.preventDefault();
   // event.preventDefault();
-  console.log('mousedown');
+  // console.log('mousedown');
   event.target.dataset.state = 'down';
-  console.log(event.target);
+  // console.log(event.target);
 
   if ((typeof event.touches != "undefined") && (event.touches.length == 1)){ // one finger touchs only
       oneFingerOnly = true;
@@ -202,7 +202,7 @@ function sliderMove(event){
   }
 }
 function sliderUp(event){
-  console.log('mouseup');
+  // console.log('mouseup');
   resetPendulum();
   event.target.dataset.state = 'up';
 }
