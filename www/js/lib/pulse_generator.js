@@ -80,44 +80,34 @@ function requestSoundData(soundData) {
         case '2/4':
         case '2/2':
           frequency = (d % 2 == 0 ) ? downbeat : offbeat;
-          motion_display_el.textContent = '..';
           break;
         case '3/4':
         case '3/8':
           frequency = (d % 3 == 0 ) ? downbeat : offbeat;
-          motion_display_el.textContent = '...';
           break;
         case '4/4':
           frequency = (d % 4 == 0 ) ? downbeat : offbeat;
-          motion_display_el.textContent = '....';
           break;
         case '5/4':
           frequency = (d % 5 == 0 ) ? downbeat : offbeat;
-          motion_display_el.textContent = '.....';
           break;
         case '6/8':
           frequency = (d % 6 == 0 ) ? downbeat : ((d % 6 == 3) ? onbeat : offbeat);
-          motion_display_el.textContent = '......';
           break;
         case '7/8':
           frequency = (d % 7 == 0 ) ? downbeat : ((d % 7 == 2)||(d % 7 == 4) ? onbeat : offbeat);
-          motion_display_el.textContent = '.......';
           break;
         case '9/8':
           frequency = (d % 9 == 0 ) ? downbeat : ((d % 3 == 0) ? onbeat : offbeat);
-          motion_display_el.textContent = '.........';
           break;
         case '12/8':
           frequency = (d % 12 == 0 ) ? downbeat : ((d % 3 == 0) ? onbeat : offbeat);
-          motion_display_el.textContent = '............';
           break;
         case 'none':
         default:
           frequency = offbeat;
-          motion_display_el.textContent = '';
           break;
       }
-      motion_display_el.textContent = setCharAt(motion_display_el.textContent,((d-1) % Number(time_signature.substring(0,time_signature.indexOf('/')))),'o');
 
       soundData[i] = 0;
     } else {

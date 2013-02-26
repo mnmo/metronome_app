@@ -1,6 +1,5 @@
 //Libraries
 require(['lib/plugins/domReady!'], domReady);
-require(["lib/pulse_generator"], sound_init);
 
 //Globar vars
   //elements
@@ -17,12 +16,19 @@ require(["lib/pulse_generator"], sound_init);
       motion_display_el,
       speed_slider_el,
       speed_slider_axis_el,
-      slider_bg_el;
+      slider_bg_el,
+      pendulum_el;
 
   //variables
   var sampleRate = 44100, moveCount=0;
-  var bpm_speed, beat_time, buffer_interval, time_signature, audioDestination, angle;
+  var bpm_speed, beat_time_ms, beat_time, buffer_interval, time_signature, audioDestination, angle;
 
+//Animation script loaded
+function anim_init(){
+  document.querySelector("#pendulum").className='';
+  myanim();
+  require(["lib/pulse_generator"], sound_init);
+}
 //Sound related initializations
 function sound_init(){
   //enable play button
@@ -61,16 +67,25 @@ function setCharAt(str,index,chr) {
 }
 function setSpeed(bpm_value){
   bpm_speed = bpm_value;
-  beat_time = Math.round((bpmToMiliseconds(bpm_speed) / 1000) * sampleRate);
+  beat_time_ms = bpmToMiliseconds(bpm_speed);
+  beat_time = Math.round((beat_time_ms / 1000) * sampleRate);
   bpm_el.textContent = bpm_value;
   tempo_mark_el.textContent = bpmToTempoMark(bpm_value);
 }
+function resetPendulum(){
+  startTime = Date.now()-beat_time_ms/2;
+}
 function startMetronome(){
+  resetPendulum();
   start();
 }
 function stopMetronome(){
   clearInterval(buffer_interval);
   buffer_interval = undefined;
+  // setTimeout(function(){
+    resetPendulum();
+    myanim();
+  // }, 2000)
 }
 function setTimeSignature(time_signature_value){
   time_signature = time_signature_value;
@@ -102,15 +117,17 @@ function muteSoundToggle(event){
   audioDestination.volume = (audioDestination.volume + 1) % 2;
 }
 function playPauseClicked(event){
-  console.log('playPauseClicked');
+  // console.log('playPauseClicked');
   event.preventDefault();
   event.stopPropagation();
   if (event.target.className === 'disabled') { return false; }
   console.log(buffer_interval);
-  if (typeof buffer_interval === 'undefined'){
-    startMetronome();
-  } else {
+  if (typeof buffer_interval !== 'undefined'){
+    // alert('stop');
     stopMetronome();
+  } else {
+    // alert('play');
+    startMetronome();
   }
 }
 function openTimeSignatureDialog(event){
@@ -151,6 +168,7 @@ function sliderDown(event){
       event.target.dataset.oneFingerOnly = false;
     }
 
+  motion_display_el.className = "disabled";
 }
 
 function sliderMove(event){
@@ -185,6 +203,7 @@ function sliderMove(event){
 }
 function sliderUp(event){
   console.log('mouseup');
+  resetPendulum();
   event.target.dataset.state = 'up';
 }
 function domReady(doc){
@@ -203,17 +222,22 @@ function domReady(doc){
   motion_display_el = doc.querySelector("#motion_display");
   speed_slider_el = doc.querySelector("#speed_slider");
   speed_slider_axis_el = doc.querySelector("#speed_slider_axis");
-  slider_bg_el = doc.querySelector("#slider_bg");
+  slider_bg_el = doc.querySelector("#slider_bg"),
+  pendulum_el =  doc.querySelector("#pendulum");
 
   //assign values
   setSpeed(Number(bpm_el.textContent));
   setTimeSignature(time_signature_el.textContent);
 
+  //load more modules
+  require(["motion_display"], anim_init);
+
+
   //assign events
   mute_button_el.addEventListener('click', muteSoundToggle, true);
-  mute_button_el.addEventListener('touchstart', muteSoundToggle, true);
+  // mute_button_el.addEventListener('touchstart', muteSoundToggle, true);
+  // play_pause_button_el.addEventListener('touchstart', playPauseClicked, true);
   play_pause_button_el.addEventListener('click', playPauseClicked, true);
-  play_pause_button_el.addEventListener('touchstart', playPauseClicked, true);
   decrease_speed_button_el.addEventListener('click', decreaseSpeed, true);
   decrease_speed_button_el.addEventListener('touchstart', decreaseSpeed, true);
   increase_speed_button_el.addEventListener('click', increaseSpeed, true);

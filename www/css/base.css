@@ -72,7 +72,8 @@ p{
 #time_signature_button,
 #slider_bg,
 #slider_fill,
-#slider_empty{
+#slider_empty,
+#pendulum{
   position: absolute;
   display: block;
 }
@@ -206,6 +207,31 @@ p{
   min-height: 480px;
   min-width: 320px;
 }
+
+/*Pendulum*/
+#motion_display{
+    height: 806px;
+    width:640px;
+    left: 0px;
+    top: 77px;
+    transform: rotate(-42deg); /* -42 to -3 */
+/*    transition-property: transform;
+    transition-duration: 1s;
+*/
+}
+
+#pendulum{
+    height: 34px;
+    left: 303px;
+    top: 27px;
+    width: 34px;
+    border-radius: 20px;
+    background-color: #fff;
+}
+#motion_display.disabled #pendulum{
+    background-color: #EE0000;
+}
+
 
 /* Debug */
 #main:before{
