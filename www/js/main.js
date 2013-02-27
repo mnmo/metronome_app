@@ -1,7 +1,31 @@
-//Libraries
+//Libraries (commented lines are loaded inside the previous line callback)
 require(['lib/plugins/domReady!'], domReady);
+  // require(["motion_display"], anim_init);
+    // require(["lib/pulse_generator"], sound_init);
 
 //Globar vars
+  //constants
+  var VIEWPORT_WIDTH = 320,
+      VIEWPORT_HEIGHT = 480,
+      SAMPLE_RATE = 44100,
+      MIN_BPM = 10,
+      MAX_BPM = 230,
+      TEMPO_MARKS = [
+        [0,   "lento assai"],
+        [59,  "largo"],
+        [65,  "larghetto"],
+        [75,  "adagio"],
+        [100, "andante"],
+        [107, "moderatto"],
+        [119, "allegro"],
+        [139, "vivace"],
+        [167, "presto"],
+        [199, "prestissimo"]
+      ],
+      UI_SLIDER_MIN_ANGLE = 8,
+      UI_SLIDER_MAX_ANGLE = 82;
+
+
   //elements
   var bpm_el,
       tempo_mark_el,
@@ -20,60 +44,56 @@ require(['lib/plugins/domReady!'], domReady);
       pendulum_el;
 
   //variables
-  var sampleRate = 44100, moveCount=0;
+  var sampleRate = SAMPLE_RATE, moveCount=0;
   var bpm_speed, beat_time_ms, beat_time, buffer_interval, time_signature, audioDestination, angle;
 
-//Animation script loaded
-function anim_init(){
-  document.querySelector("#pendulum").className='';
-  myanim();
-  require(["lib/pulse_generator"], sound_init);
-}
-//Sound related initializations
-function sound_init(){
-  //enable play button
-  document.querySelector("#play_pause_button").className='';
-}
+//Helpers
 function bpmToMiliseconds(bpm_value){
-  return (60 / bpm_value) *1000;
+  return (60 / bpm_value) * 1000;
 }
 function bpmToTempoMark(bpm_value){
-  var names = [
-    "lento assai",
-    "largo",
-    "larghetto",
-    "adagio",
-    "andante",
-    "moderatto",
-    "allegro",
-    "vivace",
-    "presto",
-    "prestissimo"
-  ];
-  if (bpm_value > 199){   return names[9];}
-  if (bpm_value > 167){   return names[8];}
-  if (bpm_value > 139){   return names[7];}
-  if (bpm_value > 119){   return names[6];}
-  if (bpm_value > 107){   return names[5];}
-  if (bpm_value > 100){   return names[4];}
-  if (bpm_value > 75){    return names[3];}
-  if (bpm_value > 65){    return names[2];}
-  if (bpm_value > 59){    return names[1];}
-  return names[0];
+  if (bpm_value > TEMPO_MARKS[9][0]){ return TEMPO_MARKS[9][1];}
+  if (bpm_value > TEMPO_MARKS[8][0]){ return TEMPO_MARKS[8][1];}
+  if (bpm_value > TEMPO_MARKS[7][0]){ return TEMPO_MARKS[7][1];}
+  if (bpm_value > TEMPO_MARKS[6][0]){ return TEMPO_MARKS[6][1];}
+  if (bpm_value > TEMPO_MARKS[5][0]){ return TEMPO_MARKS[5][1];}
+  if (bpm_value > TEMPO_MARKS[4][0]){ return TEMPO_MARKS[4][1];}
+  if (bpm_value > TEMPO_MARKS[3][0]){ return TEMPO_MARKS[3][1];}
+  if (bpm_value > TEMPO_MARKS[2][0]){ return TEMPO_MARKS[2][1];}
+  if (bpm_value > TEMPO_MARKS[1][0]){ return TEMPO_MARKS[1][1];}
+  return TEMPO_MARKS[0][1];
 }
-function setCharAt(str,index,chr) {
-    if(index > str.length-1) return str;
-    return str.substr(0,index) + chr + str.substr(index+1);
+function updateSpeedSliderPosition(bpm_value){
+  var percent = 1 - ( (MAX_BPM - MIN_BPM) - (bpm_value - MIN_BPM) ) / (MAX_BPM - MIN_BPM);
+  var angle = Math.round((UI_SLIDER_MAX_ANGLE - UI_SLIDER_MIN_ANGLE) * percent + UI_SLIDER_MIN_ANGLE);
+  speed_slider_axis_el.style.transform = "rotate("+angle+"deg)";
+  speed_slider_el.style.transform = "rotate(-"+angle+"deg)";
+  slider_bg_el.style.transform = "rotate("+angle+"deg)";
 }
+function getAngle(x, y){
+  var deltaX = x - VIEWPORT_WIDTH,
+      deltaY = y - VIEWPORT_HEIGHT,
+      angle = ( Math.atan2(deltaY,deltaX) / (Math.PI/180) ) + 180;
+  angle = Math.max( UI_SLIDER_MIN_ANGLE, Math.min( UI_SLIDER_MAX_ANGLE, angle ) );
+  return Math.round(angle);
+}
+
 function setSpeed(bpm_value){
-  bpm_speed = bpm_value;
+  bpm_speed = Math.max( MIN_BPM, Math.min(MAX_BPM, bpm_value) );
   beat_time_ms = bpmToMiliseconds(bpm_speed);
   beat_time = Math.round((beat_time_ms / 1000) * sampleRate);
-  bpm_el.textContent = bpm_value;
-  tempo_mark_el.textContent = bpmToTempoMark(bpm_value);
+  bpm_el.textContent = bpm_speed;
+  tempo_mark_el.textContent = bpmToTempoMark(bpm_speed);
+  updateSpeedSliderPosition(bpm_speed);
 }
+function setTimeSignature(time_signature_value){
+  time_signature = time_signature_value;
+  time_signature_el.textContent = time_signature_value;
+  time_signature_button_el.textContent = time_signature_value;
+}
+
 function resetPendulum(){
-  startTime = Date.now()-beat_time_ms/2;
+  startTime = Date.now() - beat_time_ms / 2;
 }
 function startMetronome(){
   resetPendulum();
@@ -82,34 +102,18 @@ function startMetronome(){
 function stopMetronome(){
   clearInterval(buffer_interval);
   buffer_interval = undefined;
-  // setTimeout(function(){
-    resetPendulum();
-    myanim();
-  // }, 2000)
-}
-function setTimeSignature(time_signature_value){
-  time_signature = time_signature_value;
-  time_signature_el.textContent = time_signature_value;
-  time_signature_button_el.textContent = time_signature_value;
-}
-function updateSpeedSliderPosition(bpm_value){
-  var percent = (1 - ((220 - bpm_value) / (220-10)));
-  var angle = Math.round(74*percent+8)
-  speed_slider_axis_el.style.transform = "rotate("+angle+"deg)";
-  speed_slider_el.style.transform = "rotate(-"+angle+"deg)";
-  slider_bg_el.style.transform = "rotate("+angle+"deg)";
+  resetPendulum();
+  myanim();
 }
 function increaseSpeed(event){
   event.preventDefault();
   event.stopPropagation();
   setSpeed(++bpm_speed);
-  updateSpeedSliderPosition(bpm_speed);
 }
 function decreaseSpeed(event){
   event.preventDefault();
   event.stopPropagation();
   setSpeed(--bpm_speed);
-  updateSpeedSliderPosition(bpm_speed);
 }
 function muteSoundToggle(event){
   event.preventDefault();
@@ -153,11 +157,13 @@ function timeSignatureDialogCancel(event){
 }
 function sliderDown(event){
   event.preventDefault();
-  // event.preventDefault();
-  // console.log('mousedown');
   event.target.dataset.state = 'down';
-  // console.log(event.target);
-
+  if (typeof buffer_interval !== 'undefined'){
+    play_pause_button_el.dataset.before_slider = 'on';
+    stopMetronome();
+  }else{
+    play_pause_button_el.dataset.before_slider = 'off';
+  }
   if ((typeof event.touches != "undefined") && (event.touches.length == 1)){ // one finger touchs only
       oneFingerOnly = true;
       var touch = event.touches[0];  // finger #1
@@ -171,41 +177,48 @@ function sliderDown(event){
   motion_display_el.className = "disabled";
 }
 
-function sliderMove(event){
-  if((typeof event.touches != "undefined")&&(event.touches.length == 1)){
-    var touch = event.touches[0];
-    //updates x and y
-    lastX = touch.pageX;
-    lastY = touch.pageY;
-  }else{
-    lastX = event.clientX;
-    lastY = event.clientY;
-  }
-  if(lastY>480){return}
-  if (  event.target.dataset.state === 'down'){
-    var deltaX = lastX - 320;
-    var deltaY = lastY - 480;
-    angle = Math.round((Math.atan2(deltaY,deltaX)/(Math.PI/180))+180);
-    if (angle < 8){
-      angle = 8;
-    }
-    if (angle > 82){
-      angle = 82;
-    }
-    // console.log('mousemove '+ event.clientX+' '+ event.clientY+' '+(angle+180));
-    speed_slider_axis_el.style.transform = "rotate("+angle+"deg)";
-    speed_slider_el.style.transform = "rotate(-"+angle+"deg)";
-    slider_bg_el.style.transform = "rotate("+angle+"deg)";
 
-    var percent = (1 - ((82 - angle) / (82-8)));
-    setSpeed(Math.round(220*percent+10));
+function sliderMove(event){
+  var x,
+      y,
+      touch,
+      percent,
+      bpm_value;
+  if((typeof event.touches != "undefined")&&(event.touches.length == 1)){
+    touch = event.touches[0];
+    x = touch.pageX;
+    y = touch.pageY;
+  }else{
+    x = event.clientX;
+    y = event.clientY;
+  }
+  if (y > VIEWPORT_HEIGHT){ return }
+  if (  event.target.dataset.state === 'down'){
+    angle = getAngle(x, y);
+    percent = (1 - ((UI_SLIDER_MAX_ANGLE - angle) / (UI_SLIDER_MAX_ANGLE - UI_SLIDER_MIN_ANGLE)));
+    bpm_value = Math.round((MAX_BPM - MIN_BPM) * percent + MIN_BPM)
+    setSpeed(bpm_value);
   }
 }
 function sliderUp(event){
-  // console.log('mouseup');
   resetPendulum();
   event.target.dataset.state = 'up';
+  if (play_pause_button_el.dataset.before_slider === 'on'){
+    startMetronome();
+  }
 }
+//Animation script loaded
+function anim_init(){
+  document.querySelector("#pendulum").className='';
+  myanim();
+  require(["lib/pulse_generator"], sound_init);
+}
+//Sound related initializations
+function sound_init(){
+  //enable play button
+  document.querySelector("#play_pause_button").className='';
+}
+//Main init
 function domReady(doc){
   //assign elements
   bpm_el = doc.querySelector("#bpm");
